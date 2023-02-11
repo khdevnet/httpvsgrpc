@@ -1,17 +1,17 @@
 using NBomber.Contracts;
+using NBomber.Contracts.Stats;
 using NBomber.CSharp;
-using NBomber.Http.CSharp;
+using NBomber.Plugins.Http.CSharp;
 
 namespace MainApi.PerformanceTest
 {
-    public class UnitTest1
+    public class TrafficSimulator
     {
         private const string MainBaseUrl = "https://perf-main-api-3xp4wzvswigfe.azurewebsites.net";
-        private LoadSimulation LoadSimulation = Simulation.Inject(
-                rate: 50,
-                interval: TimeSpan.FromSeconds(1),
+        private LoadSimulation LoadSimulation = Simulation.InjectPerSec(
+                rate: 900,
                 during: TimeSpan.FromSeconds(120));
-
+        // 600 RPS
         [Fact]
         public void GetWeatherForecastHttp()
         {
@@ -32,27 +32,22 @@ namespace MainApi.PerformanceTest
 
         private void RunSimulation(string scenarioName, string url, LoadSimulation loadSimulation)
         {
-            var httpClient = new HttpClient();
+            var httpFactory = HttpClientFactory.Create();
 
-            var scenario = Scenario.Create(scenarioName, async context =>
-            {
-                var step1 = await Step.Run("GetForecast", context, async () =>
-                {
-                    var request =
-                        Http.CreateRequest("GET", url);
+            var step = Step.Create(
+                            scenarioName,
+                            httpFactory,
+                            context => Http.Send(Http.CreateRequest("GET", url), context),
+                            timeout: TimeSpan.FromSeconds(1));
 
-                    var response = await Http.Send(httpClient, request);
+            var scenario = ScenarioBuilder
+                  .CreateScenario("WeatherForecast", step)
+                  .WithLoadSimulations(loadSimulation);
 
-                    return response;
-                });
-
-                return Response.Ok();
-            })
-            .WithoutWarmUp()
-            .WithLoadSimulations(loadSimulation);
 
             NBomberRunner
                 .RegisterScenarios(scenario)
+                .WithReportFormats(ReportFormat.Html, ReportFormat.Md)
                 .Run();
         }
     }

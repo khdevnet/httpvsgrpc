@@ -24,15 +24,6 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     tags: tags
 }
 
-module vnet 'modules/vnet/vnet.bicep' = {
-  scope: rg
-  name: vnetName
-  params: {
-      vnetName:  vnetName
-      location: location
-  }
-}
-
 module appinsights 'modules/insights/appinsights.bicep' = {
     scope: rg
     name: appInsightName
@@ -55,7 +46,7 @@ module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module mainApi 'modules/webApp/webAppVnet.bicep' = {
+module mainApi 'modules/webApp/webApp.bicep' = {
     scope: rg
     name: mainApiName
     params: {
@@ -64,7 +55,6 @@ module mainApi 'modules/webApp/webAppVnet.bicep' = {
         location:location
         appInsightName: appinsights.name
         nodeApiBaseUrl: nodeApi.outputs.baseUrl
-        subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
         appinsights
@@ -83,7 +73,7 @@ module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module nodeApi 'modules/webApp/webAppVnet.bicep' = {
+module nodeApi 'modules/webApp/webApp.bicep' = {
     scope: rg
     name: nodeApiName
     params: {
@@ -91,7 +81,6 @@ module nodeApi 'modules/webApp/webAppVnet.bicep' = {
         name: nodeApiName
         location:location
         appInsightName: appinsights.name
-        subnetsId: vnet.outputs.subnets[1].id
     }
     dependsOn: [
         appinsights
