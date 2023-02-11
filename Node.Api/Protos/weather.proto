@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "NodeGrpcApi";
+
+package weather;
+
+service Forecast {
+  rpc GetForecast (GetForecastRequest) returns (WeatherForecastReply);
+}
+
+message WeatherForecastReply {
+    repeated WeatherForecastItem items = 1;
+}
+
+message WeatherForecastItem {
+  string date = 1;
+  int32  temperatureC = 2;
+  int32  temperatureF = 3;
+  string summary  = 4;
+}
+
+message GetForecastRequest{}
