@@ -9,7 +9,7 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var suffix = uniqueString(subscription().subscriptionId)
+var suffix = 'wnd-novnet-${uniqueString(subscription().subscriptionId)}'
 
 var rgName = '${name}-rg-${suffix}'
 var appInsightName = '${name}-appinsight-${suffix}'

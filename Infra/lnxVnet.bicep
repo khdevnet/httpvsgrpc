@@ -9,7 +9,7 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var suffix = uniqueString(subscription().subscriptionId)
+var suffix = 'lnx-vnet-${uniqueString(subscription().subscriptionId)}'
 
 var rgName = '${name}-rg-${suffix}'
 var vnetName = '${name}-vnet-${suffix}'
@@ -46,7 +46,7 @@ module appinsights 'modules/insights/appinsights.bicep' = {
     }
 }
 
-module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
+module mainAppPlan 'modules/appService/appServicePlanLinux.bicep' = {
     scope: rg
     name: mainPlanName
     params: {
@@ -74,7 +74,7 @@ module mainApi 'modules/webApp/webAppVnet.bicep' = {
     ]
 }
 
-module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
+module nodeAppPlan 'modules/appService/appServicePlanLinux.bicep' = {
     scope: rg
     name: nodePlanName
     params: {

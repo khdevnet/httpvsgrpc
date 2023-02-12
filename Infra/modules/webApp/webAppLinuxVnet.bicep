@@ -35,7 +35,7 @@ resource webApp 'Microsoft.Web/sites@2021-01-01' = {
             ]
             vnetRouteAllEnabled: true
             http20Enabled: true
-            linuxFxVersion: 'DOTNETCORE|6.0'
+            linuxFxVersion: 'DOTNETCORE|7.0'
             alwaysOn: true
         }
         virtualNetworkSubnetId: subnetsId
