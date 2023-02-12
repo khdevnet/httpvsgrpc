@@ -59,6 +59,28 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
           ]
         }
       }
+      {
+        name: '${vnetName}-sn3'
+        properties: {
+          addressPrefix: '10.0.2.0/24'
+          serviceEndpoints: [
+            {
+                service: 'Microsoft.Web'
+                locations: [
+                    '*'
+                ]
+            }
+          ]
+          delegations: [
+            {
+              name: 'delegation'
+              properties: {
+                serviceName: 'Microsoft.Web/serverFarms'
+              }
+            }
+          ]
+        }
+      }
     ]
   }
 }

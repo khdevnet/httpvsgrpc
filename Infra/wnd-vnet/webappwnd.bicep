@@ -2,7 +2,7 @@ param appServicePlanId string
 param location string
 param name string
 param appInsightName string
-param nodeApiBaseUrl string = ''
+param nodeHttpApiBaseUrl string = ''
 param subnetsId string
 
 resource webApp 'Microsoft.Web/sites@2021-01-01' = {
@@ -29,13 +29,13 @@ resource webApp 'Microsoft.Web/sites@2021-01-01' = {
                     value: 'default'
                 }
                 {
-                    name: 'NodeApi:BaseUrl'
-                    value: nodeApiBaseUrl
+                    name: 'NodeHttpApi:BaseUrl'
+                    value: nodeHttpApiBaseUrl
                 }
             ]
             vnetRouteAllEnabled: true
             http20Enabled: true
-            windowsFxVersion: 'DOTNETCORE|6.0'
+            windowsFxVersion: 'DOTNETCORE|7.0'
             alwaysOn: true
         }
         virtualNetworkSubnetId: subnetsId

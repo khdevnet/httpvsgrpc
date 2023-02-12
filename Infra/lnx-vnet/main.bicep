@@ -11,13 +11,15 @@ param location string = deployment().location
 
 var suffix = 'lnx-vnet-${uniqueString(subscription().subscriptionId)}'
 
-var rgName = '${name}-rg-${suffix}'
+var rgName = '${name}-rg-lnx-${suffix}'
 var vnetName = '${name}-vnet-${suffix}'
 var appInsightName = '${name}-appinsight-${suffix}'
 var mainPlanName = '${name}-main-plan-${suffix}'
 var mainApiName = '${name}-main-api-${suffix}'
-var nodePlanName = '${name}-node-plan-${suffix}'
-var nodeApiName = '${name}-node-api-${suffix}'
+var nodePlanName = '${name}-node-http-plan-${suffix}'
+var nodeApiName = '${name}-node-http-api-${suffix}'
+var nodeGrpcPlanName = '${name}-node-grpc-plan-${suffix}'
+var nodeGrpcApiName = '${name}-node-grpc-api-${suffix}'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     name: rgName
@@ -64,17 +66,18 @@ module mainApi './webapplnx.bicep' = {
         name: mainApiName
         location:location
         appInsightName: appinsights.name
-        nodeApiBaseUrl: nodeApi.outputs.baseUrl
+        nodeHttpApiBaseUrl: nodeHttpApi.outputs.baseUrl
+        nodeGrpcApiBaseUrl: nodeGrpcApi.outputs.baseUrl
         subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
         appinsights
-        nodeApi
+        nodeHttpApi
         mainAppPlan
     ]
 }
 
-module nodeAppPlan './planlnx.bicep' = {
+module nodeHttpAppPlan './planlnx.bicep' = {
     scope: rg
     name: nodePlanName
     params: {
@@ -84,11 +87,11 @@ module nodeAppPlan './planlnx.bicep' = {
     }
 }
 
-module nodeApi './webapplnx.bicep' = {
+module nodeHttpApi './webapplnx.bicep' = {
     scope: rg
     name: nodeApiName
     params: {
-        appServicePlanId: nodeAppPlan.outputs.aspId
+        appServicePlanId: nodeHttpAppPlan.outputs.aspId
         name: nodeApiName
         location:location
         appInsightName: appinsights.name
@@ -96,7 +99,34 @@ module nodeApi './webapplnx.bicep' = {
     }
     dependsOn: [
         appinsights
-        nodeAppPlan
+        nodeHttpAppPlan
     ]
 }
+
+module nodeGrpcAppPlan './planlnx.bicep' = {
+    scope: rg
+    name: nodeGrpcPlanName
+    params: {
+        name: nodeGrpcPlanName
+        sku: appServicePlan.sku
+        location: location
+    }
+}
+
+module nodeGrpcApi './webapplnx.bicep' = {
+    scope: rg
+    name: nodeGrpcApiName
+    params: {
+        appServicePlanId: nodeGrpcAppPlan.outputs.aspId
+        name: nodeGrpcApiName
+        location:location
+        appInsightName: appinsights.name
+        subnetsId: vnet.outputs.subnets[2].id
+    }
+    dependsOn: [
+        appinsights
+        nodeGrpcAppPlan
+    ]
+}
+
 

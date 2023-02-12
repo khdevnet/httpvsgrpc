@@ -64,17 +64,17 @@ module mainApi './webappwnd.bicep' = {
         name: mainApiName
         location:location
         appInsightName: appinsights.name
-        nodeApiBaseUrl: nodeApi.outputs.baseUrl
+        nodeHttpApiBaseUrl: nodeHttpApi.outputs.baseUrl
         subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
         appinsights
-        nodeApi
+        nodeHttpApi
         mainAppPlan
     ]
 }
 
-module nodeAppPlan './planwnd.bicep' = {
+module nodeHttpAppPlan './planwnd.bicep' = {
     scope: rg
     name: nodePlanName
     params: {
@@ -84,11 +84,11 @@ module nodeAppPlan './planwnd.bicep' = {
     }
 }
 
-module nodeApi './webappwnd.bicep' = {
+module nodeHttpApi './webappwnd.bicep' = {
     scope: rg
     name: nodeApiName
     params: {
-        appServicePlanId: nodeAppPlan.outputs.aspId
+        appServicePlanId: nodeHttpAppPlan.outputs.aspId
         name: nodeApiName
         location:location
         appInsightName: appinsights.name
@@ -96,7 +96,7 @@ module nodeApi './webappwnd.bicep' = {
     }
     dependsOn: [
         appinsights
-        nodeAppPlan
+        nodeHttpAppPlan
     ]
 }
 
