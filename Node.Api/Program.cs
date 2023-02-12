@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddApplicationInsightsTelemetry();
 
 // Add services to the container.
-builder.Services.AddGrpc();
+//builder.Services.AddGrpc();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,7 +20,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapGrpcService<ForecastService>();
+//app.MapGrpcService<ForecastService>();
 app.MapControllers();
 
 app.Run();

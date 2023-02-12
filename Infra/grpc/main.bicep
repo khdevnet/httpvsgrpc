@@ -9,7 +9,7 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var suffix = 'lnx-grpc2-${uniqueString(subscription().subscriptionId)}'
+var suffix = 'lnx-grpc4-${uniqueString(subscription().subscriptionId)}'
 
 var rgName = '${name}-rg-${suffix}'
 var nodePlanName = '${name}-node-plan-${suffix}'

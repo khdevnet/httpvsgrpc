@@ -9,9 +9,10 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var suffix = 'wnd-novnet-${uniqueString(subscription().subscriptionId)}'
+var suffix = 'wnd-vnet-${uniqueString(subscription().subscriptionId)}'
 
 var rgName = '${name}-rg-${suffix}'
+var vnetName = '${name}-vnet-${suffix}'
 var appInsightName = '${name}-appinsight-${suffix}'
 var mainPlanName = '${name}-main-plan-${suffix}'
 var mainApiName = '${name}-main-api-${suffix}'
@@ -24,7 +25,16 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     tags: tags
 }
 
-module appinsights 'modules/insights/appinsights.bicep' = {
+module vnet './vnet.bicep' = {
+  scope: rg
+  name: vnetName
+  params: {
+      vnetName:  vnetName
+      location: location
+  }
+}
+
+module appinsights './appinsights.bicep' = {
     scope: rg
     name: appInsightName
     params: {
@@ -36,7 +46,7 @@ module appinsights 'modules/insights/appinsights.bicep' = {
     }
 }
 
-module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
+module mainAppPlan './planwnd.bicep' = {
     scope: rg
     name: mainPlanName
     params: {
@@ -46,7 +56,7 @@ module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module mainApi 'modules/webApp/webApp.bicep' = {
+module mainApi './webappwnd.bicep' = {
     scope: rg
     name: mainApiName
     params: {
@@ -55,6 +65,7 @@ module mainApi 'modules/webApp/webApp.bicep' = {
         location:location
         appInsightName: appinsights.name
         nodeApiBaseUrl: nodeApi.outputs.baseUrl
+        subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
         appinsights
@@ -63,7 +74,7 @@ module mainApi 'modules/webApp/webApp.bicep' = {
     ]
 }
 
-module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
+module nodeAppPlan './planwnd.bicep' = {
     scope: rg
     name: nodePlanName
     params: {
@@ -73,7 +84,7 @@ module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module nodeApi 'modules/webApp/webApp.bicep' = {
+module nodeApi './webappwnd.bicep' = {
     scope: rg
     name: nodeApiName
     params: {
@@ -81,6 +92,7 @@ module nodeApi 'modules/webApp/webApp.bicep' = {
         name: nodeApiName
         location:location
         appInsightName: appinsights.name
+        subnetsId: vnet.outputs.subnets[1].id
     }
     dependsOn: [
         appinsights

@@ -9,7 +9,7 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var suffix = 'wnd-vnet-${uniqueString(subscription().subscriptionId)}'
+var suffix = 'lnx-vnet-${uniqueString(subscription().subscriptionId)}'
 
 var rgName = '${name}-rg-${suffix}'
 var vnetName = '${name}-vnet-${suffix}'
@@ -25,7 +25,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     tags: tags
 }
 
-module vnet 'modules/vnet/vnet.bicep' = {
+module vnet './vnet.bicep' = {
   scope: rg
   name: vnetName
   params: {
@@ -34,7 +34,7 @@ module vnet 'modules/vnet/vnet.bicep' = {
   }
 }
 
-module appinsights 'modules/insights/appinsights.bicep' = {
+module appinsights './appinsights.bicep' = {
     scope: rg
     name: appInsightName
     params: {
@@ -46,7 +46,7 @@ module appinsights 'modules/insights/appinsights.bicep' = {
     }
 }
 
-module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
+module mainAppPlan './planlnx.bicep' = {
     scope: rg
     name: mainPlanName
     params: {
@@ -56,7 +56,7 @@ module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module mainApi 'modules/webApp/webAppVnet.bicep' = {
+module mainApi './webapplnx.bicep' = {
     scope: rg
     name: mainApiName
     params: {
@@ -74,7 +74,7 @@ module mainApi 'modules/webApp/webAppVnet.bicep' = {
     ]
 }
 
-module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
+module nodeAppPlan './planlnx.bicep' = {
     scope: rg
     name: nodePlanName
     params: {
@@ -84,7 +84,7 @@ module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
     }
 }
 
-module nodeApi 'modules/webApp/webAppVnet.bicep' = {
+module nodeApi './webapplnx.bicep' = {
     scope: rg
     name: nodeApiName
     params: {
