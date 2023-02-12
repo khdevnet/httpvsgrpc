@@ -8,12 +8,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Protos\greet.proto" />
-  </ItemGroup>
-
 	<ItemGroup>
-		<Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\weather.proto">
+		  <GrpcServices>Client</GrpcServices>
+		</Protobuf>
 	</ItemGroup>
 
   <ItemGroup>

@@ -12,7 +12,6 @@ public class WeatherForecastController : ControllerBase
     private readonly WeatherForecastGrpcClient _weatherForecastGrpcClient;
 
     public WeatherForecastController(
-        ILogger<WeatherForecastController> logger,
         IWeatherForecastHttpClient weatherForecastHttpClient,
         WeatherForecastGrpcClient weatherForecastGrpcClient)
     {

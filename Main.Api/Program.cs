@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var weatherForecastApiBaseUri = configuration.GetValue<string>("NodeApi:BaseUrl", "https://localhost:32770");
+var weatherForecastApiBaseUri = configuration.GetValue<string>("NodeHttpApi:BaseUrl", "https://localhost:7108");
 
 builder.Services.AddRestEaseClient<IWeatherForecastHttpClient>(weatherForecastApiBaseUri);
 

@@ -1,3 +1,4 @@
+using Common;
 using Grpc.Core;
 using NodeGrpcApi;
 
@@ -5,26 +6,28 @@ namespace Node.Api.Services;
 
 public class ForecastService : Forecast.ForecastBase
 {
-    private static readonly string[] Summaries = new[]
-   {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    private readonly ForecastDataService _forecastDataService;
 
-    public override Task<WeatherForecastReply> GetForecast(GetForecastRequest request, ServerCallContext context)
+    public ForecastService(ForecastDataService forecastDataService)
+        => _forecastDataService = forecastDataService;
+
+    public override async Task<WeatherForecastReply> GetForecast(GetForecastRequest request, ServerCallContext context)
     {
+        var forecasts = await GetForecasts();
         var r = new WeatherForecastReply();
-        r.Items.AddRange(GetForecasts());
-
-        return Task.FromResult(r);
+        r.Items.AddRange(forecasts);
+        return r;
     }
 
-    private static IEnumerable<WeatherForecastItem> GetForecasts()
+    private async Task<IEnumerable<WeatherForecastItem>> GetForecasts()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecastItem
+        var data = await _forecastDataService.Get();
+        return data.Select(f => new WeatherForecastItem
         {
-            Date = DateTime.Now.AddDays(index).ToString(),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            Date = f.Date.ToString(),
+            TemperatureC = f.TemperatureC,
+            Summary = f.Summary,
+            TemperatureF = f.TemperatureF
         });
     }
 }

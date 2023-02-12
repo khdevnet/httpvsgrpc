@@ -1,3 +1,4 @@
+using Common;
 using Microsoft.OpenApi.Models;
 using Node.Api.Services;
 using NodeGrpc.Api.Services;
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(filePath);
     c.IncludeGrpcXmlComments(filePath, includeControllerXmlComments: true);
 });
+builder.Services.AddSingleton<ForecastDataService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

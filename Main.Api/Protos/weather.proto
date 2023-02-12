@@ -1,16 +1,12 @@
 syntax = "proto3";
 
-option csharp_namespace = "Main.Api";
+option csharp_namespace = "NodeGrpcApi";
 
-package greet;
+package weather;
 
-// The greeting service definition.
-service WeatherForecastService {
-  // Sends a greeting
+service Forecast {
   rpc GetForecast (GetForecastRequest) returns (WeatherForecastReply);
 }
-
-// The request message containing the user's name.
 
 message WeatherForecastReply {
     repeated WeatherForecastItem items = 1;
