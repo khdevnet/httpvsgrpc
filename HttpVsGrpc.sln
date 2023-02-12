@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Infra", "Infra\Infra.deployproj", "{698C9D94-741D-4177-82A1-0705DEC4B1EF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainApi.PerformanceTest", "MainApi.PerformanceTest\MainApi.PerformanceTest.csproj", "{B05031AC-5500-4C19-92EC-79EFD4082AA8}"
 EndProject
 Global
@@ -36,10 +34,6 @@ Global
 		{C2917C1B-A1F5-41F6-94C3-29AB809E8361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2917C1B-A1F5-41F6-94C3-29AB809E8361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2917C1B-A1F5-41F6-94C3-29AB809E8361}.Release|Any CPU.Build.0 = Release|Any CPU
-		{698C9D94-741D-4177-82A1-0705DEC4B1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{698C9D94-741D-4177-82A1-0705DEC4B1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{698C9D94-741D-4177-82A1-0705DEC4B1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{698C9D94-741D-4177-82A1-0705DEC4B1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B05031AC-5500-4C19-92EC-79EFD4082AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B05031AC-5500-4C19-92EC-79EFD4082AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05031AC-5500-4C19-92EC-79EFD4082AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU

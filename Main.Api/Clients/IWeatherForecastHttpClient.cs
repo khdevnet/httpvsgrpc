@@ -1,11 +1,10 @@
 ﻿using Common;
 using RestEase;
 
-namespace Main.Api.Clients
+namespace Main.Api.Clients;
+
+public interface IWeatherForecastHttpClient
 {
-    public interface IWeatherForecastHttpClient
-    {
-        [Get("WeatherForecast")]
-        Task<IEnumerable<WeatherForecast>> Get(); 
-    }
+    [Get("WeatherForecast")]
+    Task<IEnumerable<WeatherForecast>> Get(); 
 }

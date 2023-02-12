@@ -1,4 +1,4 @@
-using NodeGrpc.Api.Services;
+using Node.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
