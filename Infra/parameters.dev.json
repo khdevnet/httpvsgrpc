@@ -11,8 +11,8 @@
         "appServicePlan": {
           "value": {
             "sku": {
-              "name": "P1V3",
-              "tier": "Premium v3"
+              "name": "S1",
+              "tier": "Standart"
             }
           }
         },
