@@ -64,7 +64,12 @@ module mainApi './webappwnd.bicep' = {
         name: mainApiName
         location:location
         appInsightName: appinsights.name
-        nodeHttpApiBaseUrl: nodeHttpApi.outputs.baseUrl
+        appSettings: [
+            {
+                name: 'NodeHttpApiBaseUrl'
+                value: nodeHttpApi.outputs.baseUrl
+            }
+        ]
         subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
@@ -99,4 +104,3 @@ module nodeHttpApi './webappwnd.bicep' = {
         nodeHttpAppPlan
     ]
 }
-

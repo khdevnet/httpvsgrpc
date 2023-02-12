@@ -7,9 +7,9 @@ namespace MainApi.PerformanceTest;
 
 public class TrafficSimulator
 {
-    private const string MainBaseUrl = "https://perf-main-api-3xp4wzvswigfe.azurewebsites.net";
+    private const string MainBaseUrl = "https://perf-main-api-wnd-vnet-goetw36e4h7di.azurewebsites.net";
     private LoadSimulation LoadSimulation = Simulation.InjectPerSec(
-            rate: 10,
+            rate: 600,
             during: TimeSpan.FromSeconds(120));
     // 600 RPS
     [Fact]

@@ -12,7 +12,7 @@ public class WeatherForecastGrpcClient : IDisposable
 
     public WeatherForecastGrpcClient(IConfiguration configuration)
     {
-        var weatherForecastApiBaseUri = configuration.GetValue<string>("NodeGrpcApi:BaseUrl", "https://localhost:7174");
+        var weatherForecastApiBaseUri = configuration.GetValue<string>("NodeGrpcApiBaseUrl", "https://localhost:7174");
 
         _channel = GrpcChannel.ForAddress(weatherForecastApiBaseUri);
         _client = new ForecastClient(_channel);

@@ -66,8 +66,16 @@ module mainApi './webapplnx.bicep' = {
         name: mainApiName
         location:location
         appInsightName: appinsights.name
-        nodeHttpApiBaseUrl: nodeHttpApi.outputs.baseUrl
-        nodeGrpcApiBaseUrl: nodeGrpcApi.outputs.baseUrl
+        appSettings: [
+            {
+                name: 'NodeHttpApiBaseUrl'
+                value: nodeHttpApi.outputs.baseUrl
+            }
+            {
+                name: 'NodeGrpcApiBaseUrl'
+                value: nodeGrpcApi.outputs.baseUrl
+            }
+        ]
         subnetsId: vnet.outputs.subnets[0].id
     }
     dependsOn: [
@@ -120,6 +128,12 @@ module nodeGrpcApi './webapplnx.bicep' = {
         appServicePlanId: nodeGrpcAppPlan.outputs.aspId
         name: nodeGrpcApiName
         location:location
+        appSettings:[
+            {
+                name: 'HTTP20_ONLY_PORT'
+                value: 5243
+            }
+        ]
         appInsightName: appinsights.name
         subnetsId: vnet.outputs.subnets[2].id
     }

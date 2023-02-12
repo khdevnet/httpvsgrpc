@@ -2,9 +2,27 @@ param appServicePlanId string
 param location string
 param name string
 param appInsightName string
-param nodeHttpApiBaseUrl string = ''
-param nodeGrpcApiBaseUrl string = ''
+param appSettings array = []
 param subnetsId string
+
+var internalAppSettings = [
+    {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: reference('microsoft.insights/components/${appInsightName}', '2015-05-01').InstrumentationKey
+    }
+    {
+        name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        value: reference('microsoft.insights/components/${appInsightName}', '2015-05-01').ConnectionString
+    }
+    {
+        name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
+        value: '~2'
+    }
+    {
+        name: 'XDT_MicrosoftApplicationInsights_Mode'
+        value: 'default'
+    }
+]
 
 resource webApp 'Microsoft.Web/sites@2021-01-01' = {
     name: name
@@ -12,32 +30,7 @@ resource webApp 'Microsoft.Web/sites@2021-01-01' = {
     tags: {}
     properties: {
         siteConfig: {
-            appSettings: [
-                {
-                    name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-                    value: reference('microsoft.insights/components/${appInsightName}', '2015-05-01').InstrumentationKey
-                }
-                {
-                    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-                    value: reference('microsoft.insights/components/${appInsightName}', '2015-05-01').ConnectionString
-                }
-                {
-                    name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
-                    value: '~2'
-                }
-                {
-                    name: 'XDT_MicrosoftApplicationInsights_Mode'
-                    value: 'default'
-                }
-                {
-                    name: 'NodeHttpApi:BaseUrl'
-                    value: nodeHttpApiBaseUrl
-                }
-                {
-                    name: 'NodeGrpcApi:BaseUrl'
-                    value: nodeGrpcApiBaseUrl
-                }
-            ]
+            appSettings: concat(internalAppSettings, appSettings)
             vnetRouteAllEnabled: true
             http20Enabled: true
             linuxFxVersion: 'DOTNETCORE|7.0'
