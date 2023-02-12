@@ -9,14 +9,15 @@ param appServicePlan object
 param tags object
 param location string = deployment().location
 
-var rgName = '${name}-rg-${uniqueString(subscription().subscriptionId)}'
-var vnetName = '${name}-vnet-${uniqueString(subscription().subscriptionId)}'
+var suffix = uniqueString(subscription().subscriptionId)
 
-var appInsightName = '${name}-appinsight-${uniqueString(subscription().subscriptionId)}'
-var mainPlanName = '${name}-main-plan-${uniqueString(subscription().subscriptionId)}'
-var mainApiName = '${name}-main-api-${uniqueString(subscription().subscriptionId)}'
-var nodePlanName = '${name}-node-plan-${uniqueString(subscription().subscriptionId)}'
-var nodeApiName = '${name}-node-api-${uniqueString(subscription().subscriptionId)}'
+var rgName = '${name}-rg-${suffix}'
+var vnetName = '${name}-vnet-${suffix}'
+var appInsightName = '${name}-appinsight-${suffix}'
+var mainPlanName = '${name}-main-plan-${suffix}'
+var mainApiName = '${name}-main-api-${suffix}'
+var nodePlanName = '${name}-node-plan-${suffix}'
+var nodeApiName = '${name}-node-api-${suffix}'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     name: rgName
@@ -45,7 +46,7 @@ module appinsights 'modules/insights/appinsights.bicep' = {
     }
 }
 
-module mainAppPlan 'modules/appService/appServicePlan.bicep' = {
+module mainAppPlan 'modules/appService/appServicePlanLinux.bicep' = {
     scope: rg
     name: mainPlanName
     params: {
@@ -73,7 +74,7 @@ module mainApi 'modules/webApp/webAppVnet.bicep' = {
     ]
 }
 
-module nodeAppPlan 'modules/appService/appServicePlan.bicep' = {
+module nodeAppPlan 'modules/appService/appServicePlanLinux.bicep' = {
     scope: rg
     name: nodePlanName
     params: {

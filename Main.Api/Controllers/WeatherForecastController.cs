@@ -8,7 +8,6 @@ namespace Main.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private readonly ILogger<WeatherForecastController> _logger;
     private readonly IWeatherForecastHttpClient _weatherForecastHttpClient;
     private readonly WeatherForecastGrpcClient _weatherForecastGrpcClient;
 
@@ -17,7 +16,6 @@ public class WeatherForecastController : ControllerBase
         IWeatherForecastHttpClient weatherForecastHttpClient,
         WeatherForecastGrpcClient weatherForecastGrpcClient)
     {
-        _logger = logger;
         _weatherForecastHttpClient = weatherForecastHttpClient;
         _weatherForecastGrpcClient = weatherForecastGrpcClient;
     }

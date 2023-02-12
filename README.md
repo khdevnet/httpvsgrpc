@@ -41,6 +41,14 @@ Test runs using NBomber from local computer.
 | ---------------- | ---- | ------- | ------- | -------------------- |
 | P1V3             | 2    | 8 GB | 250 GB   |                     |
 
+### App service configuration
+| Key | Value |
+| --- | ----  |
+| HTTP version | 2 |
+| Always on | ON |
+| ARR Afinity | OFF |
+| HTTPS Only | ON |
+
 
 ## Results
 
