@@ -19,6 +19,8 @@
  az deployment sub create -l westeurope -f ./wnd-vnet/main.bicep --parameters './parameters.prod.json'
  az deployment sub create -l westeurope -f ./lnx-vnet/main.bicep --parameters './parameters.prod.json'
  ```
+ ![image](https://user-images.githubusercontent.com/14298158/218462156-a972a629-92b1-485b-9a73-d6320a5a4ec8.png)
+
 
 | Feature                               | URL                                                              | Kind                      | Azure service plan                             | Third party | Comment                 |
 | ------------------------------------- | ---------------------------------------------------------------- | ------------------------- | ---------------------------------------------- | ----------- | ----------------------- |
