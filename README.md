@@ -1,52 +1,47 @@
-# Azure environment configuration
-```
- az deployment sub create -l westeurope -f main.bicep --parameters './parameters.dev.json'
- ```
-
 # Load test scenarios
 ## Requirements
-Two Api services what hosted on Azure app services communicate by HTTP   
-Verify throughput of server to server communication using HTTP client Main Api send request to Node Api 
-Response time shoud be less then 1 sec
-Test runs using NBomber from local computer.
+* Two API services hosted on Azure app services 
+* Main Api send a request to Node Api by HTTP or GRPC
+* Node API has data processing simulation what makes delay 100-120 ms
+* Verify throughput of server-to-server communication using HTTP/GRPC protocol 
+* Count requests where response time less then 1 sec 
+* Test runs using NBomber from local computer.
 
 ## Environment
-
 ### Conditions
 
 * Infrastructure hosted in West Europe
-* Performance test runner machine located in West Europe: i7 11th Generation (2.8 GHz) / 16 GB RAM / Windows 11 OS, internet speed 100MB
+* Performance test runner machine located in West Europe: i7 11th Generation (2.8 GHz) / 16 GB RAM / Windows 11 OS
+* Internet speed 100MB
 
 ### Azure infrastructure
+```powershell
+ az deployment sub create -l westeurope -f ./wnd-vnet/main.bicep --parameters './parameters.prod.json'
+ az deployment sub create -l westeurope -f ./lnx-vnet/main.bicep --parameters './parameters.prod.json'
+ ```
+
 | Feature                               | URL                                                              | Kind                      | Azure service plan                             | Third party | Comment                 |
 | ------------------------------------- | ---------------------------------------------------------------- | ------------------------- | ---------------------------------------------- | ----------- | ----------------------- |
 | Main API                      | perf-main-api       | Api app service           | P1V3: 1 instance       |             |                         |  
-| Node API                     | perf-http-node-api         | Api App                   | P1V3: 1 instance             |             |                         |
+| Node HTTP API                     | perf-http-node-api         | Api App                   | P1V3: 1 instance             |             |                        |
+| Node GRPC API                     | perf-grpc-node-api         | Api App                   | P1V3: 1 instance             |             |                         |
 
 
 ### App service plan
 
-| App service plan | Core | Ram     | Storage | Outbound connections |
-| ---------------- | ---- | ------- | ------- | -------------------- |
-| Windows P1V3     | 2    | 8 GB    | 250 GB   |                     |
-| Linux P1V3       | 2    | 8 GB    | 250 GB   |                     |
+| App service plan | Core | Ram     | Storage |
+| ---------------- | ---- | ------- | ------- |
+| Windows P1V3     | 2    | 8 GB    | 250 GB  |
+| Linux P1V3       | 2    | 8 GB    | 250 GB  |
 
 ### App service windows/linux
-| Key | Value |
-| --- | ----  |
-| HTTP version | 2 |
-| Always on | ON |
-| ARR Afinity | OFF |
-| HTTPS Only | ON |
-
-### App service linux grpc
-| Key | Value |
-| --- | ----  |
-| HTTP version | 2 |
-| Always on | ON |
-| ARR Afinity | OFF |
-| HTTPS Only | ON |
-| HTTP proxy 2 | ON |
+| Key | Value |Comment |
+| --- | ----  |--|
+| HTTP version | 2 | wnd/lnx|
+| Always on | ON |wnd/lnx|
+| ARR Afinity | OFF |wnd/lnx|
+| HTTPS Only | ON |wnd/lnx|
+| HTTP proxy 2 | ON |lnx GRPC|
 
 ## Results
 ### Case 1: Run Asp.Net 7 API application on windows app services connected with vnet using HTTP contract
