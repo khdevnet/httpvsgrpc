@@ -5,21 +5,10 @@
 
 # Load test scenarios
 ## Requirements
-Two Api services what hosted on Azure app services communicate by http   
+Two Api services what hosted on Azure app services communicate by HTTP   
 Verify throughput of server to server communication using HTTP client Main Api send request to Node Api 
-Entry url for main 
-GET https://perf-main-api-3xp4wzvswigfe.azurewebsites.net/WeatherForecast/http
 Response time shoud be less then 1 sec
 Test runs using NBomber from local computer.
-
-
-## NBomber Scenario
-| Simulation      | Duration     |
-| --------------- | ------------ |
-| Ramp up traffic | 30 seconds    |
-| Duration        | 2 minutes    |
-| Time out        | 1 seconds   |
-| RPS             | 500 per second |
 
 ## Environment
 
@@ -31,17 +20,18 @@ Test runs using NBomber from local computer.
 ### Azure infrastructure
 | Feature                               | URL                                                              | Kind                      | Azure service plan                             | Third party | Comment                 |
 | ------------------------------------- | ---------------------------------------------------------------- | ------------------------- | ---------------------------------------------- | ----------- | ----------------------- |
-| Main API                      | https://perf-main-api-3xp4wzvswigfe.azurewebsites.net       | Api app service           | P1V3: 1 instance       |             |                         |  
-| Node API                     | https://perf-node-api-3xp4wzvswigfe.azurewebsites.net         | Api App                   | P1V3: 1 instance             |             |                         |
+| Main API                      | perf-main-api       | Api app service           | P1V3: 1 instance       |             |                         |  
+| Node API                     | perf-http-node-api         | Api App                   | P1V3: 1 instance             |             |                         |
 
 
 ### App service plan
 
 | App service plan | Core | Ram     | Storage | Outbound connections |
 | ---------------- | ---- | ------- | ------- | -------------------- |
-| P1V3             | 2    | 8 GB | 250 GB   |                     |
+| Windows P1V3     | 2    | 8 GB    | 250 GB   |                     |
+| Linux P1V3       | 2    | 8 GB    | 250 GB   |                     |
 
-### App service configuration
+### App service windows/linux
 | Key | Value |
 | --- | ----  |
 | HTTP version | 2 |
@@ -49,6 +39,32 @@ Test runs using NBomber from local computer.
 | ARR Afinity | OFF |
 | HTTPS Only | ON |
 
+### App service linux grpc
+| Key | Value |
+| --- | ----  |
+| HTTP version | 2 |
+| Always on | ON |
+| ARR Afinity | OFF |
+| HTTPS Only | ON |
+| HTTP proxy 2 | ON |
+
+## Scenario
+| Simulation      | Duration       |
+| --------------- | -------------- |
+| Ramp up traffic | 30 seconds     |
+| Duration        | 2 minutes      |
+| Time out        | 1 seconds      |
+| RPS             | 500 per second |
+
 
 ## Results
+### Case 1:
+Run Asp.Net 7 API application on windows app services connected with vnet using HTTP contract
+
+### Case 2:
+Run services on linux app services connected with vnet using HTTP contract
+
+### Case 3:
+Run services on linux app services connected with vnet using GRPC contract
+
 
