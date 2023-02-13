@@ -44,38 +44,33 @@
 | HTTP proxy 2 | ON |lnx GRPC|
 
 ## Results
-### Case 1: Run Asp.Net 7 API application on windows app services connected with vnet using HTTP contract
-
 | Simulation      | Duration       |
 | --------------- | -------------- |
 | Ramp up traffic | 30 seconds     |
 | Duration        | 2 minutes      |
 | Time out        | 1 seconds      |
-| RPS             | 600 per second |
+
+### Case 1: Run Asp.Net 7 API application on windows app services connected with vnet using HTTP contract
+During run simulate 600 request per second 
 
 ![image](https://user-images.githubusercontent.com/14298158/218453254-c167fa3e-cc67-4859-acd9-eff2a60d4293.png)
+[More reports in WndVnetHttpNet7](https://github.com/khdevnet/httpvsgrpc/tree/main/MainApi.PerformanceTest/Reports/WndVnetHttpNet7)
 
 ### Case 2: Run Asp.Net 7 API application on linux app services connected in vnet using HTTP contract
-
-| Simulation      | Duration       |
-| --------------- | -------------- |
-| Ramp up traffic | 30 seconds     |
-| Duration        | 2 minutes      |
-| Time out        | 1 seconds      |
-| RPS             | 500 per second |
+During run simulate 500 request per second 
 
 ![image](https://user-images.githubusercontent.com/14298158/218453781-0323ac22-3c92-4574-b4ec-bdefe831de7c.png)
-
+[More reports in LnxVnetHttpNet7](https://github.com/khdevnet/httpvsgrpc/tree/main/MainApi.PerformanceTest/Reports/LnxVnetHttpNet7)
 ### Case 3: Run Asp.Net 7 API application on linux app services connected in vnet using GRPC contract
-
-| Simulation      | Duration       |
-| --------------- | -------------- |
-| Ramp up traffic | 30 seconds     |
-| Duration        | 2 minutes      |
-| Time out        | 1 seconds      |
-| RPS             | 800 per second |
+During run simulate 800 request per second 
 
 ![image](https://user-images.githubusercontent.com/14298158/218453959-aa222b2b-b5f4-4613-8f4a-a4801f946fba.png)
+[More reports in LnxVnetGrpcNet7](https://github.com/khdevnet/httpvsgrpc/tree/main/MainApi.PerformanceTest/Reports/LnxVnetGrpcNet7)
+
+## Summary
+It was suprise for me but looks like windows app service plans on NET 7 could handle 600 RPS what is 100 RPS greater then on linux app service plan (Linux API throughput 500 RPS)
+GRPC could be use only on linux app service plan and it was easier to run it with NET 7 but not on NET 6
+GRPC could handle 800 RPS what is 36% greater then HTTP on linux
 
 
 
