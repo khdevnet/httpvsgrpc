@@ -60,11 +60,15 @@ Test runs using NBomber from local computer.
 ## Results
 ### Case 1:
 Run Asp.Net 7 API application on windows app services connected with vnet using HTTP contract
+![image](https://user-images.githubusercontent.com/14298158/218453254-c167fa3e-cc67-4859-acd9-eff2a60d4293.png)
 
 ### Case 2:
-Run services on linux app services connected with vnet using HTTP contract
+Run Asp.Net 7 API application on linux app services connected in vnet using HTTP contract
+![image](https://user-images.githubusercontent.com/14298158/218453781-0323ac22-3c92-4574-b4ec-bdefe831de7c.png)
 
 ### Case 3:
-Run services on linux app services connected with vnet using GRPC contract
+Run Asp.Net 7 API application on linux app services connected in vnet using GRPC contract
+![image](https://user-images.githubusercontent.com/14298158/218453959-aa222b2b-b5f4-4613-8f4a-a4801f946fba.png)
+
 
 
