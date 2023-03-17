@@ -1,6 +1,17 @@
 {
     "version": "2.0.0",
-    "tasks": [
+    "tasks": [        {
+        "label": "build:grpcapi",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/NodeGrpc.Api/NodeGrpc.Api.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+    },
         {
             "label": "build",
             "command": "dotnet",
