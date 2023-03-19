@@ -19,4 +19,4 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          curl https://raw.githubusercontent.com/devcontainers/cli/main/example-usage/image-build/build-image.sh | sh -s $CONTAINER_IMAGE true "linux/amd64"
+          curl https://raw.githubusercontent.com/devcontainers/cli/main/example-usage/image-build/build-image.sh | sh -s ./ $CONTAINER_IMAGE true "linux/amd64"
