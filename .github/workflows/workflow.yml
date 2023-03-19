@@ -18,6 +18,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         env:
-          CONTAINER_IMAGE: httpvsgrpc/devenv
+          CONTAINER_IMAGE: khdevnet/httpvsgrpc/devenv
         run: |
           devcontainer build --image-name $CONTAINER_IMAGE --platform "linux/amd64" --push true --workspace-folder ./
