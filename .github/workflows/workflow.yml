@@ -17,5 +17,5 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          vsdc build --image $CONTAINER_IMAGE --auth $DOCKER_USERNAME:$DOCKER_PASSWORD
-          vsdc push --image $CONTAINER_IMAGE --auth $DOCKER_USERNAME:$DOCKER_PASSWORD
+          devcontainer build $CONTAINER_IMAGE --auth $DOCKER_USERNAME:$DOCKER_PASSWORD
+          docker push --image $CONTAINER_IMAGE --auth $DOCKER_USERNAME:$DOCKER_PASSWORD
