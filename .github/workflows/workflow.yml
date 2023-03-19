@@ -12,7 +12,7 @@ jobs:
       - name: Install VS Code Dev Containers CLI
         run: npm i -g @devcontainers/cli
       - name: DIR
-        run: ls -a
+        run: ls -a ./
       - name: Build and push Docker image
         env:
           CONTAINER_IMAGE: httpvsgrpc/devenv
