@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/base:jammy
-COPY ./.devcontainer/installdotnet.sh ./
     
-RUN ./installdotnet.sh dotnet-sdk-7.0
+RUN curl -s https://raw.githubusercontent.com/khdevnet/wsl2-env/main/install-dotnet7.sh | bash
 
-RUN apt-get update \
-    && apt-get -y install git
+RUN curl -s https://raw.githubusercontent.com/khdevnet/wsl2-env/main/install-git.sh | sh
+RUN git config --global --add safe.directory /workspaces/httpvsgrpc
