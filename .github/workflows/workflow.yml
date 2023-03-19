@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install VS Code Dev Containers CLI
-        run: npm install -g vs-dev-containers-cli
+        run: npm i -g @devcontainers/cli
       - name: Build and push Docker image
         env:
           CONTAINER_IMAGE: httpvsgrpc/devenv
