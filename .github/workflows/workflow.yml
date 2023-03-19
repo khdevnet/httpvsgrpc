@@ -12,11 +12,12 @@ jobs:
       - name: Install VS Code Dev Containers CLI
         run: npm i -g @devcontainers/cli
       - name: DIR
-        run: ls -a /home/runner/work/httpvsgrpc/workspace/.devcontainer/
+        run: ls -a ./
       - name: Build and push Docker image
         env:
           CONTAINER_IMAGE: httpvsgrpc/devenv
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
+          cd ./
           curl https://raw.githubusercontent.com/devcontainers/cli/main/example-usage/image-build/build-image.sh | sh -s ./ $CONTAINER_IMAGE true "linux/amd64"
