@@ -18,5 +18,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: dir workspace
         run: ls -a
+      - name: Build image
         run: |
           curl https://raw.githubusercontent.com/devcontainers/cli/main/example-usage/image-build/build-image.sh | sh -s test true "linux/amd64"
